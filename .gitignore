@@ -1,0 +1,22 @@
+# dependencies
+node_modules/
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# runtime data (per-user, auto-created)
+profile.json
+history.json
+usage.json
+
+# frame exports
+frames/
+*.png
+
+# OS
+.DS_Store
+
+# logs
+*.log

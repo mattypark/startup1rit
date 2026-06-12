@@ -1,0 +1,24 @@
+{
+  "name": "adaptive-color-agent",
+  "version": "0.1.0",
+  "description": "Adaptive Color Agent for Premiere Pro — AI color grading that learns your taste.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check lib/vision.js && node --check lib/style-model.js && node --check lib/adjustment-mapper.js && node --check lib/frame-sampler.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^8.0.0",
+    "zod": "^3.23.8"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}
