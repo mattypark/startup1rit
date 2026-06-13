@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Adaptive Color Agent</title>
+<style>
+  :root {
+    --white: #ffffff;
+    --black: #000000;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont,
+      "Inter", ui-sans-serif, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%;
+    background: var(--white); color: var(--black);
+    font-size: 12px;
+    letter-spacing: -0.01em;
+  }
+  body { padding: 14px; }
+  ::selection { background: var(--black); color: var(--white); }
+
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 4px;
+  }
+  .logo { display: inline-flex; color: var(--black); }
+  .logo svg { display: block; }
+  .brand h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+  }
+  .tag {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    border-left: 1px solid var(--black);
+    padding-left: 8px;
+  }
+  .divider {
+    border: 0;
+    border-top: 2px solid var(--black);
+    margin: 10px 0 12px;
+  }
+
+  .profile-card {
+    border: 1.5px solid var(--black);
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .profile-card.missing { background: var(--black); color: var(--white); }
+  .profile-card .profile-label {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .profile-card .profile-name {
+    font-size: 14px;
+    font-weight: 700;
+    word-break: break-all;
+  }
+  .profile-card .profile-meta {
+    font-size: 10px;
+    opacity: 0.7;
+    letter-spacing: 0.04em;
+  }
+  .profile-card .profile-actions { display: flex; gap: 6px; margin-top: 4px; }
+
+  .row { display: flex; gap: 6px; align-items: center; margin-bottom: 8px; }
+  .label {
+    min-width: 56px;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  input, select {
+    flex: 1;
+    font: inherit;
+    font-size: 12px;
+    background: var(--white);
+    color: var(--black);
+    border: 1.5px solid var(--black);
+    border-radius: 0;
+    padding: 6px 9px;
+    outline: none;
+  }
+  input:focus { background: var(--black); color: var(--white); }
+
+  button {
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 0;
+    padding: 7px 12px;
+    border: 1.5px solid var(--black);
+    background: var(--white);
+    color: var(--black);
+    letter-spacing: 0.02em;
+    font-weight: 500;
+    transition: background .18s ease, color .18s ease, transform .12s ease;
+  }
+  button:hover:not(:disabled) { background: var(--black); color: var(--white); }
+  button:active:not(:disabled) { transform: translate(1px, 1px); }
+  button:disabled { opacity: 0.35; cursor: not-allowed; }
+  button.primary { background: var(--black); color: var(--white); font-weight: 600; }
+  button.primary:hover:not(:disabled) { background: var(--white); color: var(--black); }
+  .profile-card.missing button.primary {
+    background: var(--white); color: var(--black); border-color: var(--white);
+  }
+  .profile-card.missing button.primary:hover { background: var(--black); color: var(--white); }
+  button.ghost.tiny {
+    padding: 3px 8px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: transparent;
+  }
+  .spacer { flex: 1; }
+
+  .hint {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    margin: 6px 0 8px;
+  }
+
+  .progress {
+    display: none;
+    border: 1.5px solid var(--black);
+    height: 10px;
+    margin-bottom: 10px;
+  }
+  .progress .bar {
+    height: 100%;
+    width: 0%;
+    background: var(--black);
+    transition: width .3s ease;
+  }
+
+  .status {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    margin: 4px 0 6px;
+    opacity: 0.7;
+  }
+  .log {
+    background: var(--black);
+    color: var(--white);
+    border: 1.5px solid var(--black);
+    padding: 8px;
+    font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+    font-size: 10px;
+    height: 130px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    letter-spacing: 0;
+  }
+  .log .ok   { font-weight: 600; }
+  .log .warn { font-weight: 600; text-decoration: underline; }
+  .log .err  { font-weight: 700; text-decoration: underline; text-decoration-style: wavy; }
+
+  .settings {
+    margin-top: 12px;
+    border-top: 1px solid var(--black);
+    padding-top: 10px;
+  }
+  .settings summary {
+    cursor: pointer;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    list-style: none;
+    user-select: none;
+  }
+  .settings summary::-webkit-details-marker { display: none; }
+  .settings[open] summary { opacity: 1; }
+  .settings .settings-body { margin-top: 10px; }
+
+  .gated { display: none; }
+  body[data-state="ready"] .gated[data-show~="ready"] { display: block; }
+  body[data-state="ready"] .gated[data-show~="ready"].row { display: flex; }
+  body[data-state="no-profile"] .gated[data-show~="no-profile"] { display: block; }
+  body[data-state="no-project"] .gated[data-show~="no-project"] { display: block; }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--white); }
+  ::-webkit-scrollbar-thumb { background: var(--black); border-radius: 0; }
+</style>
+</head>
+<body data-state="loading">
+
+  <div class="brand">
+    <span class="logo" aria-hidden="true">
+      <svg viewBox="0 0 80 80" width="24" height="24">
+        <g fill="none" stroke="currentColor" stroke-width="5">
+          <circle cx="40" cy="40" r="30"/>
+          <circle cx="40" cy="40" r="14"/>
+        </g>
+        <circle cx="40" cy="40" r="5" fill="currentColor"/>
+      </svg>
+    </span>
+    <h1>ACA</h1>
+    <span class="tag">color grading that learns you</span>
+  </div>
+
+  <hr class="divider" />
+
+  <div id="profile-card" class="profile-card">
+    <span class="profile-label">Taste profile</span>
+    <span class="profile-name" id="profile-name">Loading…</span>
+    <span class="profile-meta" id="profile-meta"></span>
+    <div class="profile-actions">
+      <button class="primary" id="btn-init" style="display:none">Create taste profile</button>
+    </div>
+  </div>
+
+  <div class="row gated" data-show="ready">
+    <span class="label">Series</span>
+    <select id="series">
+      <option value="default">Default</option>
+      <option value="weekly">Weekly series</option>
+      <option value="reel">Reel</option>
+      <option value="carousel">Carousel</option>
+    </select>
+  </div>
+
+  <div class="row gated" data-show="ready">
+    <button class="primary" id="btn-grade">Grade timeline</button>
+    <button id="btn-feedback">Send feedback</button>
+    <div class="spacer"></div>
+    <button id="btn-capture">Capture my grade</button>
+  </div>
+
+  <div class="hint gated" data-show="ready">
+    Grade &nbsp;·&nbsp; tweak in Lumetri &nbsp;·&nbsp; send feedback &nbsp;·&nbsp; it learns
+  </div>
+
+  <div class="progress" id="progress"><div class="bar" id="progress-bar"></div></div>
+
+  <div class="status" id="status">Loading…</div>
+  <div class="log" id="log"></div>
+
+  <details class="settings">
+    <summary>Settings ⚙</summary>
+    <div class="settings-body">
+      <div class="row">
+        <span class="label">Backend</span>
+        <input id="backend" value="http://127.0.0.1:3001" />
+      </div>
+      <div class="row">
+        <button class="ghost tiny" id="btn-reconnect">Reconnect</button>
+      </div>
+    </div>
+  </details>
+
+  <script src="./CSInterface.js"></script>
+  <script src="./panel.js"></script>
+</body>
+</html>
