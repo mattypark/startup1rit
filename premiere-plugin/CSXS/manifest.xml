@@ -5,7 +5,7 @@
   host-app access (sequence, clips, Lumetri, frame export).
 -->
 <ExtensionManifest Version="7.0" ExtensionBundleId="com.aca.panel"
-  ExtensionBundleVersion="0.1.0" ExtensionBundleName="Adaptive Color Agent"
+  ExtensionBundleVersion="0.1.0" ExtensionBundleName="startup1rit"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
   <ExtensionList>
@@ -41,7 +41,7 @@
         </Lifecycle>
         <UI>
           <Type>Panel</Type>
-          <Menu>Adaptive Color Agent</Menu>
+          <Menu>startup1rit</Menu>
           <Geometry>
             <Size><Height>560</Height><Width>380</Width></Size>
             <MinSize><Height>320</Height><Width>300</Width></MinSize>

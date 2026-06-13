@@ -28,7 +28,8 @@ const mapper = require('./lib/adjustment-mapper');
 const sampler = require('./lib/frame-sampler');
 
 const PORT = Number(process.env.PORT) || 3001;
-const HISTORY_PATH = path.join(__dirname, 'history.json');
+const DATA_DIR = process.env.ACA_DATA_DIR || __dirname;
+const HISTORY_PATH = path.join(DATA_DIR, 'history.json');
 const MAX_CLIPS_PER_GRADE = 50;
 const MAX_NAME_LEN = 200;
 const MAX_DURATION_SEC = 60 * 60 * 24;

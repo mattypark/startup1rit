@@ -1,6 +1,9 @@
 # dependencies
 node_modules/
 
+# desktop build artifacts
+desktop/dist/
+
 # secrets
 .env
 .env.*

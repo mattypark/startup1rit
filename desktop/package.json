@@ -1,0 +1,45 @@
+{
+  "name": "startup1rit-desktop",
+  "version": "0.1.0",
+  "description": "startup1rit menu-bar app — runs the local color-grading backend for the Premiere panel.",
+  "main": "main.js",
+  "author": "mattypark",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --mac dmg"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.startup1rit.desktop",
+    "productName": "startup1rit",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "settings.html"
+    ],
+    "extraResources": [
+      { "from": "../server.js", "to": "backend/server.js" },
+      { "from": "../lib", "to": "backend/lib" },
+      { "from": "../node_modules", "to": "backend/node_modules" },
+      { "from": "../premiere-plugin", "to": "backend/premiere-plugin" }
+    ],
+    "mac": {
+      "target": [
+        { "target": "dmg", "arch": "arm64" }
+      ],
+      "category": "public.app-category.video",
+      "identity": null
+    },
+    "dmg": {
+      "artifactName": "startup1rit.dmg"
+    }
+  }
+}

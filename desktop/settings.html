@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>startup1rit</title>
+<style>
+  :root {
+    --white: #ffffff;
+    --black: #000000;
+    font-family: "SF Pro Display", "SF Pro Text", -apple-system, BlinkMacSystemFont,
+      "Inter", ui-sans-serif, system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--white);
+    color: var(--black);
+    font-size: 13px;
+    letter-spacing: -0.01em;
+  }
+  body { padding: 18px; }
+  ::selection { background: var(--black); color: var(--white); }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 2px;
+  }
+  .brand h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+  }
+  .tag {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    border-left: 1px solid var(--black);
+    padding-left: 8px;
+  }
+  hr.divider {
+    border: 0;
+    border-top: 2px solid var(--black);
+    margin: 14px 0 16px;
+  }
+
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1.5px solid var(--black);
+    padding: 9px 12px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+  }
+  .dot { width: 9px; height: 9px; border: 1.5px solid var(--black); border-radius: 50%; }
+  .dot.on { background: var(--black); }
+
+  label.field {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin: 0 0 5px;
+  }
+  input, select {
+    width: 100%;
+    font: inherit;
+    font-size: 13px;
+    background: var(--white);
+    color: var(--black);
+    border: 1.5px solid var(--black);
+    border-radius: 0;
+    padding: 8px 10px;
+    outline: none;
+    margin-bottom: 14px;
+  }
+  input:focus { background: var(--black); color: var(--white); }
+  .grid2 { display: flex; gap: 10px; }
+  .grid2 > div { flex: 1; }
+
+  button {
+    font: inherit;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 0;
+    padding: 9px 14px;
+    border: 1.5px solid var(--black);
+    background: var(--white);
+    color: var(--black);
+    letter-spacing: 0.03em;
+    font-weight: 500;
+    transition: background .16s ease, color .16s ease, transform .1s ease;
+  }
+  button:hover { background: var(--black); color: var(--white); }
+  button:active { transform: translate(1px, 1px); }
+  button.primary { background: var(--black); color: var(--white); font-weight: 600; }
+  button.primary:hover { background: var(--white); color: var(--black); }
+  .actions { display: flex; gap: 8px; margin-bottom: 14px; }
+  .actions .primary { flex: 1; }
+
+  .steps {
+    font-size: 11px;
+    line-height: 1.7;
+    border: 1.5px solid var(--black);
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .steps b { font-weight: 700; }
+
+  .log {
+    background: var(--black);
+    color: var(--white);
+    border: 1.5px solid var(--black);
+    padding: 9px;
+    font-family: ui-monospace, "JetBrains Mono", Menlo, monospace;
+    font-size: 10px;
+    min-height: 54px;
+    max-height: 120px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    letter-spacing: 0;
+  }
+</style>
+</head>
+<body>
+  <div class="brand">
+    <h1>startup1rit</h1>
+    <span class="tag">color grading that learns you</span>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="status">
+    <span class="dot" id="dot"></span>
+    <span id="status-text">Checking backend…</span>
+  </div>
+
+  <label class="field" for="key">Anthropic API key</label>
+  <input id="key" type="password" placeholder="sk-ant-…" autocomplete="off" spellcheck="false" />
+
+  <div class="grid2">
+    <div>
+      <label class="field" for="model">Model</label>
+      <select id="model">
+        <option value="claude-sonnet-4-6">Sonnet 4.6</option>
+        <option value="claude-opus-4-6">Opus 4.6</option>
+        <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+      </select>
+    </div>
+    <div>
+      <label class="field" for="ceiling">Weekly $ cap</label>
+      <input id="ceiling" type="number" min="1" step="1" value="10" />
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="primary" id="save">Save &amp; start backend</button>
+    <button id="install">Install Premiere panel</button>
+  </div>
+
+  <div class="steps">
+    <b>How to use</b><br />
+    1. Paste your API key, click Save.<br />
+    2. Click <b>Install Premiere panel</b>.<br />
+    3. Restart Premiere Pro.<br />
+    4. Window &rsaquo; Extensions &rsaquo; <b>startup1rit</b>.
+  </div>
+
+  <div class="log" id="log">—</div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const log = (msg) => { $('log').textContent = msg; };
+
+    function setStatus(running, healthy) {
+      $('dot').classList.toggle('on', !!healthy);
+      $('status-text').textContent = healthy
+        ? 'Backend running · 127.0.0.1:3001'
+        : running
+          ? 'Backend starting…'
+          : 'Backend stopped';
+    }
+
+    async function refresh() {
+      const s = await window.s1r.getState();
+      $('key').value = s.apiKey || '';
+      $('model').value = s.model || 'claude-sonnet-4-6';
+      $('ceiling').value = s.ceiling || 10;
+      setStatus(s.running, s.healthy);
+      if (!s.apiKey) log('No API key yet. Paste one to enable grading.');
+    }
+
+    $('save').addEventListener('click', async () => {
+      log('Saving + starting backend…');
+      const r = await window.s1r.saveConfig({
+        apiKey: $('key').value,
+        model: $('model').value,
+        ceiling: $('ceiling').value,
+      });
+      setStatus(true, r.healthy);
+      log(r.healthy ? 'Saved. Backend healthy.' : 'Saved, but backend not responding — check the key.');
+    });
+
+    $('install').addEventListener('click', async () => {
+      log('Installing Premiere panel…');
+      const r = await window.s1r.installPanel();
+      log((r.ok ? 'Installed.\n' : 'Install failed.\n') + (r.output || ''));
+    });
+
+    window.s1r.onInstallResult((r) => {
+      log((r.ok ? 'Installed.\n' : 'Install failed.\n') + (r.output || ''));
+    });
+
+    refresh();
+    setInterval(refresh, 4000);
+  </script>
+</body>
+</html>
