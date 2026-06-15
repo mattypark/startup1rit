@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RIT — git for video editors</title>
+<link rel="stylesheet" href="styles.css" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+</head>
+<body>
+
+  <!-- splash -->
+  <div id="splash" aria-hidden="true">
+    <div class="splash-inner">
+      <div class="splash-rit">
+        <span class="splash-letter">R</span>
+        <span class="splash-letter splash-i-wrap">
+          <span class="splash-i-dot" id="splash-mark">
+            <svg viewBox="0 0 80 80" width="100%" height="100%">
+              <g fill="currentColor" stroke="none">
+                <circle cx="40" cy="40" r="10"/>
+                <ellipse class="ray" cx="40" cy="14" rx="3" ry="6.5"/>
+                <ellipse class="ray" cx="40" cy="66" rx="3" ry="6.5"/>
+                <ellipse class="ray" cx="14" cy="40" rx="6.5" ry="3"/>
+                <ellipse class="ray" cx="66" cy="40" rx="6.5" ry="3"/>
+                <ellipse class="ray" cx="22" cy="22" rx="3" ry="6.5" transform="rotate(-45 22 22)"/>
+                <ellipse class="ray" cx="58" cy="22" rx="3" ry="6.5" transform="rotate(45 58 22)"/>
+                <ellipse class="ray" cx="22" cy="58" rx="3" ry="6.5" transform="rotate(45 22 58)"/>
+                <ellipse class="ray" cx="58" cy="58" rx="3" ry="6.5" transform="rotate(-45 58 58)"/>
+              </g>
+            </svg>
+          </span>I</span>
+        <span class="splash-letter">T</span>
+      </div>
+      <p class="splash-sub">git for video editors</p>
+    </div>
+  </div>
+
+  <!-- header -->
+  <header class="topbar">
+    <a class="brand" href="#top">
+      <span class="brand-logo-wrap"><img src="RIT.png" alt="RIT" class="brand-logo" /></span>
+      <span class="tag">git for video editors</span>
+    </a>
+
+    <nav class="nav">
+      <a href="#problem">Why</a>
+      <a href="#how">How</a>
+      <a href="#demo">Demo</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#demo" class="nav-cta">Open editor →</a>
+    </nav>
+  </header>
+
+  <!-- hero -->
+  <section id="top" class="hero">
+    <div class="hero-bg-grid" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <p class="kicker reveal" data-rev>version control · post-production</p>
+      <h1 class="hero-headline reveal" data-rev>
+        Git.<br/>
+        For video<br/>
+        editors.
+      </h1>
+      <p class="hero-sub reveal" data-rev>
+        Two editors. One timeline. Commit, branch, merge — like GitHub, but
+        for the cuts that actually ship.
+      </p>
+      <div class="hero-cta reveal" data-rev>
+        <a href="#demo" class="btn btn-primary">Open the demo →</a>
+        <a href="#how" class="btn">See how it works</a>
+      </div>
+
+      <div class="hero-marquee reveal" data-rev>
+        <div class="marquee-track">
+          <span>COMMIT</span><span>·</span>
+          <span>BRANCH</span><span>·</span>
+          <span>MERGE</span><span>·</span>
+          <span>RESOLVE</span><span>·</span>
+          <span>SHIP</span><span>·</span>
+          <span>COMMIT</span><span>·</span>
+          <span>BRANCH</span><span>·</span>
+          <span>MERGE</span><span>·</span>
+          <span>RESOLVE</span><span>·</span>
+          <span>SHIP</span><span>·</span>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- problem -->
+  <section id="problem" class="section">
+    <div class="section-inner">
+      <p class="kicker reveal" data-rev>the problem</p>
+      <h2 class="section-headline reveal" data-rev>
+        Video editing is still <span class="strike">single-player</span>.
+      </h2>
+      <p class="section-lede reveal" data-rev>
+        One person owns the project file. Collaboration looks like
+        "send it back when you're done." Two editors can't work on
+        different parts of the same video in parallel without manual
+        file shuffling, overwrites, and the inevitable wait, whose
+        version is final?
+      </p>
+
+      <div class="placeholder-row">
+        <div class="placeholder reveal" data-rev>
+          <div class="ph-label">timeline_v3_FINAL.prproj</div>
+          <div class="ph-sub">14 revisions · last opened 2h ago</div>
+        </div>
+        <div class="placeholder reveal" data-rev>
+          <div class="ph-label">timeline_v3_FINAL_use_this.prproj</div>
+          <div class="ph-sub">9 revisions · alice overwrote bob</div>
+        </div>
+        <div class="placeholder reveal" data-rev>
+          <div class="ph-label">timeline_v3_FINAL_actually_final.prproj</div>
+          <div class="ph-sub">2 revisions · ¯\_(ツ)_/¯</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- why we built this — market case -->
+  <section id="why" class="section section-stats">
+    <div class="section-inner">
+      <p class="kicker reveal" data-rev>why we built this</p>
+      <h2 class="section-headline reveal" data-rev>
+        Video is the new code.<br/>
+        Editing has no GitHub.
+      </h2>
+      <p class="section-lede reveal" data-rev>
+        Adobe paid <b>$1.275B</b> for Frame.io — a review tool. Not even
+        version control. The actual problem (merging timelines from
+        multiple editors) is still unsolved. Meanwhile the work keeps
+        scaling.
+      </p>
+
+      <div class="stats-grid">
+        <div class="stat reveal" data-rev>
+          <div class="stat-num">
+            <span class="counter" data-target="1.275" data-decimals="3" data-prefix="$" data-suffix="B">$0B</span>
+          </div>
+          <div class="stat-label">Frame.io exit to Adobe (2021) — for review, not merge</div>
+        </div>
+
+        <div class="stat reveal" data-rev>
+          <div class="stat-num">
+            <span class="counter" data-target="207" data-suffix="M+">0</span>
+          </div>
+          <div class="stat-label">content creators worldwide (2024)</div>
+        </div>
+
+        <div class="stat reveal" data-rev>
+          <div class="stat-num">
+            <span class="counter" data-target="500" data-suffix="h/min">0</span>
+          </div>
+          <div class="stat-label">uploaded to YouTube every minute</div>
+        </div>
+
+        <div class="stat reveal" data-rev>
+          <div class="stat-num">
+            <span class="counter" data-target="91" data-suffix="%">0%</span>
+          </div>
+          <div class="stat-label">of businesses use video as a marketing tool</div>
+        </div>
+
+        <div class="stat reveal" data-rev>
+          <div class="stat-num">
+            <span class="counter" data-target="75" data-suffix="%">0%</span>
+          </div>
+          <div class="stat-label">of creative collaboration is now remote</div>
+        </div>
+
+        <div class="stat reveal" data-rev>
+          <div class="stat-num">
+            <span class="counter" data-target="8" data-suffix=" days">0</span>
+          </div>
+          <div class="stat-label">average approval cycle, 3+ revisions per edit</div>
+        </div>
+
+        <div class="stat reveal" data-rev>
+          <div class="stat-num">
+            <span class="counter" data-target="480" data-prefix="$" data-suffix="B">$0B</span>
+          </div>
+          <div class="stat-label">creator economy by 2027 (Goldman Sachs)</div>
+        </div>
+
+        <div class="stat stat-anchor reveal" data-rev>
+          <div class="stat-num">
+            <span class="counter" data-target="180" data-suffix="M+">0</span>
+          </div>
+          <div class="stat-label">developers use GitHub. Editors get nothing.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- who this impacts -->
+  <section id="who" class="section section-dark">
+    <div class="section-inner">
+      <p class="kicker reveal" data-rev>who this impacts</p>
+      <h2 class="section-headline reveal" data-rev>
+        Everyone shipping video<br/>at more than one desk.
+      </h2>
+
+      <div class="who-grid">
+        <article class="who-card reveal" data-rev>
+          <div class="who-num">01</div>
+          <h3>Freelance editors</h3>
+          <p>
+            Juggling 3–5 clients, each with a different folder convention.
+            Versioned filenames die at <i>_FINAL_v3_use_this.prproj</i>.
+            RIT gives you commits, history, and rollback — for free.
+          </p>
+        </article>
+
+        <article class="who-card reveal" data-rev>
+          <div class="who-num">02</div>
+          <h3>Two-editor agencies</h3>
+          <p>
+            One does motion, one does color. Today: file ping-pong over
+            Dropbox. Tomorrow: parallel branches, merge cleanly, ship
+            faster than the agency twice your size.
+          </p>
+        </article>
+
+        <article class="who-card reveal" data-rev>
+          <div class="who-num">03</div>
+          <h3>YouTube channels at scale</h3>
+          <p>
+            Mr Beast-style teams: 4 editors on one video. Frame.io
+            shows comments. Resolve has version control nobody uses.
+            RIT actually merges the timeline.
+          </p>
+        </article>
+
+        <article class="who-card reveal" data-rev>
+          <div class="who-num">04</div>
+          <h3>Remote post-production</h3>
+          <p>
+            75% of creative work is now distributed. LucidLink ships
+            the bytes; nobody ships the protocol. Git did this for
+            code in 2005 — video gets it in 2026.
+          </p>
+        </article>
+      </div>
+
+      <div class="comparison reveal" data-rev>
+        <div class="cmp-head">vs. what exists today</div>
+        <div class="cmp-row">
+          <div class="cmp-name">Frame.io</div>
+          <div class="cmp-what">review + comments</div>
+          <div class="cmp-miss">no merge</div>
+        </div>
+        <div class="cmp-row">
+          <div class="cmp-name">DaVinci Resolve</div>
+          <div class="cmp-what">collab project DB</div>
+          <div class="cmp-miss">single tool only</div>
+        </div>
+        <div class="cmp-row">
+          <div class="cmp-name">Perforce</div>
+          <div class="cmp-what">file lock, big assets</div>
+          <div class="cmp-miss">no timeline merge</div>
+        </div>
+        <div class="cmp-row">
+          <div class="cmp-name">LucidLink</div>
+          <div class="cmp-what">fast remote storage</div>
+          <div class="cmp-miss">no version graph</div>
+        </div>
+        <div class="cmp-row cmp-row-us">
+          <div class="cmp-name">RIT</div>
+          <div class="cmp-what">commit · branch · merge</div>
+          <div class="cmp-miss">the missing protocol</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- how it works -->
+  <section id="how" class="section">
+    <div class="section-inner">
+      <p class="kicker reveal" data-rev>how it works</p>
+      <h2 class="section-headline reveal" data-rev>
+        Three moves you already know.
+      </h2>
+
+      <div class="steps">
+        <article class="step reveal" data-rev>
+          <div class="step-num">01</div>
+          <h3>Commit your timeline</h3>
+          <p>Snapshot the current cut. Each commit captures every clip,
+          order, and duration. Branch off in your own working copy.</p>
+          <div class="step-visual">
+            <div class="badge">+ commit · alice</div>
+            <div class="badge">a1f3c92</div>
+          </div>
+        </article>
+
+        <article class="step reveal" data-rev>
+          <div class="step-num">02</div>
+          <h3>Merge in changes</h3>
+          <p>When your partner pushes, RIT diffs the timelines.
+          Non-overlapping ranges fold in automatically. Time
+          collisions become conflicts.</p>
+          <div class="step-visual">
+            <div class="badge">→ merge bob → main</div>
+            <div class="badge badge-warn">2 conflicts</div>
+          </div>
+        </article>
+
+        <article class="step reveal" data-rev>
+          <div class="step-num">03</div>
+          <h3>Resolve, ship</h3>
+          <p>Pick incoming, keep main, or skip. Watch the unified
+          timeline assemble itself in real time. One source of truth,
+          two editors, zero "whose version is final."</p>
+          <div class="step-visual">
+            <div class="badge">✓ merged · 4 auto</div>
+            <div class="badge">HEAD @ 8b2e4f1</div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- demo / inline editor -->
+  <section id="demo" class="section">
+    <div class="section-inner">
+      <p class="kicker reveal" data-rev>live demo</p>
+      <h2 class="section-headline reveal" data-rev>
+        Try it now.
+      </h2>
+      <p class="section-lede reveal" data-rev>
+        Open two browser tabs. Switch users. Commit. Merge. The whole
+        protocol lives inside this page.
+      </p>
+
+      <div class="app reveal" data-rev>
+        <div class="app-row">
+          <section class="workspace">
+            <div class="workspace-head">
+              <h2><span id="who-label">Alice</span>'s working timeline</h2>
+              <div class="actions">
+                <button id="add-clip-btn">+ Add clip</button>
+                <button id="commit-btn" class="primary">Commit</button>
+              </div>
+            </div>
+            <div class="user-switch-inline">
+              <span class="label">Editing as</span>
+              <button class="user-btn active" data-user="alice">
+                <span class="dot"></span> Alice
+              </button>
+              <button class="user-btn" data-user="bob">
+                <span class="dot"></span> Bob
+              </button>
+              <button id="reset-btn" class="ghost">Reset</button>
+            </div>
+            <div class="timeline-shell">
+              <div class="ruler" id="ruler"></div>
+              <div class="track" id="working-track"></div>
+            </div>
+            <div class="hint">
+              Drag clips. Click to edit. Commit when ready.
+            </div>
+
+            <div class="main-branch">
+              <div class="workspace-head">
+                <h2>main timeline</h2>
+                <div class="actions">
+                  <span id="main-status" class="muted">no commits yet</span>
+                </div>
+              </div>
+              <div class="timeline-shell readonly">
+                <div class="ruler" id="ruler-main"></div>
+                <div class="track" id="main-track"></div>
+              </div>
+            </div>
+          </section>
+
+          <aside class="sidebar">
+            <h3>Commit log</h3>
+            <ul id="commit-log" class="commit-log"></ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- pricing -->
+  <section id="pricing" class="section section-pricing">
+    <div class="section-inner">
+      <p class="kicker reveal" data-rev>pricing</p>
+      <h2 class="section-headline reveal" data-rev>
+        Start free.<br/>Scale when you ship.
+      </h2>
+      <p class="section-lede reveal" data-rev>
+        Free covers the typical two-editor team. Pro unlocks the whole
+        crew. Enterprise when post-production goes industrial.
+      </p>
+
+      <div class="pricing-grid">
+        <article class="price-card reveal" data-rev>
+          <div class="price-name">Free</div>
+          <div class="price-amount">
+            <span class="price-num">$0</span>
+            <span class="price-per">forever</span>
+          </div>
+          <p class="price-tag">For duos and weekend projects.</p>
+          <ul class="price-list">
+            <li><b>2</b> collaborators per repo</li>
+            <li><b>10</b> projects total</li>
+            <li>Commit · branch · merge</li>
+            <li>Full timeline history</li>
+            <li>Conflict resolution UI</li>
+          </ul>
+          <a href="#demo" class="btn price-btn">Start free →</a>
+        </article>
+
+        <article class="price-card price-card-pro reveal" data-rev>
+          <div class="price-badge">most popular</div>
+          <div class="price-name">Pro</div>
+          <div class="price-amount">
+            <span class="price-num">$15</span>
+            <span class="price-per">/ month</span>
+          </div>
+          <p class="price-tag">For teams shipping daily.</p>
+          <ul class="price-list">
+            <li><b>Unlimited</b> collaborators</li>
+            <li><b>Unlimited</b> projects</li>
+            <li>XTC — extended timeline collab</li>
+            <li>Branch protection &amp; reviews</li>
+            <li>Premiere &amp; Resolve plugins</li>
+            <li>Priority sync, larger asset cache</li>
+          </ul>
+          <a href="#demo" class="btn btn-primary price-btn">Go Pro →</a>
+          <p class="price-foot">or yearly · save 2 months</p>
+        </article>
+
+        <article class="price-card reveal" data-rev>
+          <div class="price-name">Enterprise</div>
+          <div class="price-amount">
+            <span class="price-num">Custom</span>
+            <span class="price-per">contact owner</span>
+          </div>
+          <p class="price-tag">For studios and agencies.</p>
+          <ul class="price-list">
+            <li>Everything in Pro</li>
+            <li>Dedicated experts on call</li>
+            <li>SSO, audit log, SLA</li>
+            <li>Private cloud or self-host</li>
+            <li>Custom integrations</li>
+            <li>White-glove onboarding</li>
+          </ul>
+          <a href="mailto:owner@rit.dev" class="btn price-btn">Contact owner →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- closing CTA -->
+  <section class="section section-cta">
+    <div class="section-inner cta-inner">
+      <h2 class="cta-headline reveal" data-rev>
+        Stop emailing<br/>.prproj files.
+      </h2>
+      <p class="cta-sub reveal" data-rev>
+        The protocol for collaborative editing. Premiere plugin next.
+      </p>
+      <a href="#demo" class="btn btn-primary btn-lg reveal" data-rev>
+        Open the editor →
+      </a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <img src="RIT.png" alt="RIT" class="footer-logo" />
+      <span class="footer-text">
+        git for video editors
+      </span>
+    </div>
+  </footer>
+
+  <!-- modals (unchanged from app) -->
+  <div class="modal hidden" id="clip-modal">
+    <div class="modal-card">
+      <h3 id="clip-modal-title">New clip</h3>
+      <label>Name <input id="clip-name" type="text" placeholder="intro shot" /></label>
+      <label>Start (sec) <input id="clip-start" type="number" min="0" step="1" value="0" /></label>
+      <label>Duration (sec) <input id="clip-duration" type="number" min="1" step="1" value="5" /></label>
+      <div class="modal-actions">
+        <button id="clip-cancel" class="ghost">Cancel</button>
+        <button id="clip-delete" class="danger hidden">Delete</button>
+        <button id="clip-save" class="primary">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="commit-modal">
+    <div class="modal-card">
+      <h3>Commit timeline</h3>
+      <p class="muted" id="commit-summary"></p>
+      <label>Message <input id="commit-message" type="text" placeholder="add intro shots" /></label>
+      <div class="modal-actions">
+        <button id="commit-cancel" class="ghost">Cancel</button>
+        <button id="commit-confirm" class="primary">Commit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="merge-modal">
+    <div class="modal-card wide">
+      <h3>Merge <span id="merge-commit-label"></span> into main</h3>
+      <div id="merge-summary" class="muted"></div>
+      <div id="conflicts-list"></div>
+      <div class="modal-actions">
+        <button id="merge-cancel" class="ghost">Cancel</button>
+        <button id="merge-confirm" class="primary">Merge</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
